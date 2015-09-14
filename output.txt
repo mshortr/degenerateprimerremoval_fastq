@@ -1,0 +1,12 @@
+The total number of sequences that were analyzed was 166.
+
+Adapter was found and removed for 165 sequences (99% of total).
+
+Sequences that did not contain the adapter were kept.
+
+The adapters were removed from the dataset.
+
+Adapters were removed from the 5' end.
+
+The name of the adapter that was removed was named UniA, and had the sequence ACCTGCCTGCCG.
+

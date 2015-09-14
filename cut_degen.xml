@@ -1,0 +1,66 @@
+<tool id="cut_degen" name="Cut degenerate primers from dataset (for Fastq)" version="0.1.0">
+	<description> Degenerate primer removal tool for Fastq files</description>
+    <requirements>
+	<requirement type = "package" version = "1.9">numpy</requirement>
+	<requirement type = "package" version = "1.65">biopython</requirement>
+    </requirements>
+    <stdio>
+        <exit_code range="1:" />
+    </stdio>
+
+    <command interpreter="python">cut_degen.py $input1 $input2 $input3 $input4 $input5 $input6
+    </command>
+    <inputs>
+	<param name="input1" type="data" label="Input Fastq file" help="Please add a valid Fastq file!" format="fastq"/>
+	<param name="input2" type="text" label="Input adaptor" help="This will work also with degenerate adaptors. Type the adaptor here..." size="4x25" area="true"/>
+	<param name="input3" type="select" label="Keep reads without adaptor?" help="This is a True/False option, if True, reads that lack the adaptor will be kept. If false, they will be deleted from the dataset.">
+			<option value="True">True</option>
+			<option value="False">False</option>
+		</param>
+	<param name="input4" type="select" label = "Remove adaptors?" help="This is True/False option, if True, removes adaptors from sequences. If false, keeps the adaptors in the sequences.">
+			<option value="True">True</option>
+			<option value="False">False</option>
+		</param>
+	<param name="input5" type="select" multiple="False" label="5' or 3' end" help="Enter '5' to remove the primer from the 5' end, and enter '3' to remove the primer from the 3' end">
+        <option value="5">5</option>
+		<option value="3">3</option>
+        </param>
+        <param name="input6" type="text" label="Adaptor name" help="Enter an identifier for your adaptor to be recorded in the output .txt file" size="4x25" area="true">
+		</param>
+    </inputs>
+	<outputs>
+		<data name="output1" format="text" from_work_dir="output.txt" label="Degenerate adaptor removal on ${input1.name}(REPORT)"/>
+		<data name="output2" format="fastq" from_work_dir="output.fastq" label="Degenerate adaptor removal on ${input1.name}(READS)"/>
+    </outputs>
+	<tests>
+			<test>
+	<param name="input1" value="test.fastq"/>
+	<param name="input2"  value="ACCTGCCTGCCG"/>
+	<param name="input3" value="True"/>
+	<param name="input4" value="True"/>
+	<param name="input5" value="5"/>
+    <param name="input6"  value="UniA"/>
+	<output name="output1" file="output.txt"/>
+	<output name="output2" file="output.fastq"/>
+        </test>
+		<test>
+			<param name="input1" value="test3prime.fastq"/>
+			<param name="input2" value="GCTCGGTGGCGT"/>
+			<param name="input3" value="True"/>
+			<param name="input4" value="True"/>
+			<param name="input5" value="3"/>
+			<param name="input6" value="UniB"/>
+			<output name="output1" file="output2.txt"/>
+			<output name="output2" file="output2.fastq"/>
+		</test>
+    </tests>
+    <help>
+This program takes Fastq files and removes a given degenerate primer sequence. There are a few arguments that you can put in:
+        1) You can check whether or not to keep reads that do not have the adaptor in it.
+        2) You can check whether or not to remove the adaptor sequences from your reads.
+        3) You can choose whether to cut adaptors from the 5', or 3' end of the molecules.
+		4) You can add an identifier for the adaptor which will show up in the output text file.
+
+    </help>
+	<citation type="doi"> doi: 10.1093/bioinformatics/btp163</citation>
+</tool>
